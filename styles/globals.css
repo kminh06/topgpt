@@ -20,13 +20,13 @@ td {
   text-align: right;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   html {
-    color-scheme: light;
+    color-scheme: dark;
   }
   body {
-    color: black;
-    background: white;
+    color: white;
+    background: black;
   }
 }
 
@@ -37,17 +37,32 @@ td {
   width: 100%;
   margin: auto;
   padding: 15px;
-  position: absolute;
-  bottom: 0;
+  overflow-y: auto;
+  background-color: rgba(255, 255, 255, 0.1);
+  height: calc(100vh - 100px);
+
 }
 
 #chat-box {
-  width: 100%;
-  background-color: lightgray;
-  padding: 15px 15px 0 15px;
+  width: 75%;
+  background-color: rgba(145, 176, 255, 0.15);
   outline: none;
   resize: none;
   font-size: large;
-  border-radius: 8px;
+  border-radius: 5px;
   border: 0;
+  height: 40px;
+  font-family: monospace;
+  padding: 0 0 0 15px;
+}
+
+.Header {
+  height: 100px;
+  width: 100%;
+  background-color: black;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15px;
 }

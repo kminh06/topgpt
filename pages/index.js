@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { openai } from "@/openai-config"
+import Head from "next/head"
 
 export default function Home() {
   const [result, setResult] = useState('')
@@ -15,10 +16,10 @@ export default function Home() {
       max_tokens: 100,
       temperature: 0,
     }).then((response) => {
-      console.log(response.data.choices[0].text)
+      const answer = response.data.choices[0].text.slice(2)
+      console.log(answer)
       console.log(response)
-      setResult(response.data.choices[0].text)
-      setSession([...session, { prompt: text, result: response.data.choices[0].text }])
+      setSession([...session, { prompt: text, result: answer }])
     }).catch((error) => {
       console.log(error)
       setSession([...session, { prompt: text, result: 'Could not answer, please try again' }])
@@ -26,20 +27,26 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <h1>CheatGPT</h1>
+    <div className='Home'>
+      <Head>
+        <title>TopGPT</title>
+      </Head>
+      <div className='Header'>
+        <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT</span>
+        <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3 engine</span>
+      </div>
       <div id='content'>
         <div style={{width: '100%'}}>
-          <textarea placeholder='Ask me anything ...' id='chat-box' value={text} onChange={(e) => {setText(e.target.value)}} />
-          <button onClick={(e) => {
-          e.preventDefault();
-          handleSubmit(text)
-        }}>Submit</button>
+          <input type='text' placeholder='Ask me anything ...' id='chat-box' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
+            if (e.key === 'Enter' && text !== '') {
+              handleSubmit(text)
+            }
+          }} />
         </div>
-        <div>{session.map((convo) => 
-          <div>
+        <div id='message-container'>{session.map((convo) => 
+          <div className='message-group' key={session.indexOf(convo)}>
             <b>{convo.prompt}</b>
-            <p>{convo.result}</p>
+            <p style={{whiteSpace: 'pre-line'}}>{convo.result}</p>
           </div>
         )}</div>
       </div>
