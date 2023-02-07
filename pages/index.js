@@ -45,8 +45,8 @@ export default function Home() {
         </div>
         <div id='message-container'>{session.map((convo) => 
           <div className='message-group' key={session.indexOf(convo)}>
-            <b>{convo.prompt}</b>
-            <p style={{whiteSpace: 'pre-line'}}>{convo.result}</p>
+            <div className='message'><span style={{fontStyle: 'italic'}}>{convo.prompt}</span></div>
+            <div className='message' style={{whiteSpace: 'pre-line'}}><span>{convo.result}</span></div>
           </div>
         )}</div>
       </div>
