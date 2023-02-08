@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import { getDoc, doc, setDoc } from "firebase/firestore"
 import { db } from "@/config/firebase"
 
-export default function home() {
+export default function Home() {
   const [result, setResult] = useState('')
   const [text, setText] = useState('')
   const [session, setSession] = useState([])

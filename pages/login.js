@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from '../AuthContext'
 import { GoogleAuthProvider } from 'firebase/auth'
 
-export default function login() {
+export default function Login() {
   const { currentUser, authenticate } = useAuth()
   const [loading, setLoading] = useState(true)
   const router = useRouter()
