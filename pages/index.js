@@ -1,11 +1,43 @@
 import React, { useState, useEffect } from "react"
-import { openai } from "@/openai-config"
+import { openai } from "@/config/openai"
 import Head from "next/head"
+import { useAuth } from "@/AuthContext"
+import { useRouter } from "next/router"
+import { getDoc, doc, setDoc } from "firebase/firestore"
+import { db } from "@/config/firebase"
 
-export default function Home() {
+export default function home() {
   const [result, setResult] = useState('')
   const [text, setText] = useState('')
   const [session, setSession] = useState([])
+  const { currentUser, logout } = useAuth()
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState()
+  
+  useEffect(() => {
+    if (!currentUser) {
+      router.push('/login')
+    } else {
+      const docRef = doc(db, 'users', currentUser.uid)
+      getDoc(docRef)
+        .then((doc) => {
+          if (doc.data() === undefined) {
+            setDoc(docRef, {
+              displayName: currentUser.displayName,
+              photoURL: currentUser.photoURL,
+              email: currentUser.email,
+              date_joined: new Intl.DateTimeFormat('en-US',{month:'short', day:'numeric', year:'numeric'}).format(new Date()),
+              has_paid: false
+            }).then(() => {
+              router.reload(window.location.pathname)
+            })
+          } else {
+            setLoading(false)
+          }
+        })
+    }
+  }, [])
 
   function handleSubmit(text) {
     setText('')
@@ -27,17 +59,21 @@ export default function Home() {
   }
 
   return (
-    <div className='Home'>
+    (!loading) ? <div className='Home'>
       <Head>
-        <title>TopGPT</title>
+        <title>Chat | TopGPT</title>
       </Head>
       <div className='Header'>
         <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT</span>
         <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3 engine</span>
+        <button onClick={(e) => {
+          e.preventDefault();
+          logout()
+        }}>Log Out</button>
       </div>
       <div id='content'>
         <div style={{width: '100%'}}>
-          <input type='text' placeholder='Ask me anything ...' id='chat-box' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
+          <input type='text' autoComplete='off' placeholder='Ask me anything ...' id='chat-box' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
             if (e.key === 'Enter' && text !== '') {
               handleSubmit(text)
             }
@@ -50,6 +86,6 @@ export default function Home() {
           </div>
         )}</div>
       </div>
-    </div>
+    </div> : <div>Loading ...</div>
   )
 }
