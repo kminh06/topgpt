@@ -3,6 +3,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useAuth } from '../AuthContext'
 import { GoogleAuthProvider } from 'firebase/auth'
+import google from '@/google.png'
+import Image from 'next/image'
 
 export default function Login() {
   const { currentUser, authenticate } = useAuth()
@@ -24,10 +26,14 @@ export default function Login() {
         <title>Login | TopGPT</title>
       </Head>
       <h1>Login</h1>
-      <button onClick={(e) => {
+      <button className='btn login' onClick={(e) => {
         e.preventDefault();
         authenticate(googleProvider)
-      }}>Login with Google</button>
+      }}>
+        <div>
+          <Image width={25} src={google} />
+          <span>Continue with Google</span>
+        </div></button>
     </div> : <div>Loading ...</div>
   )
 }

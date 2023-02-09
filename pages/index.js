@@ -7,7 +7,6 @@ import { getDoc, doc, setDoc } from "firebase/firestore"
 import { db } from "@/config/firebase"
 
 export default function Home() {
-  const [result, setResult] = useState('')
   const [text, setText] = useState('')
   const [session, setSession] = useState([])
   const { currentUser, logout } = useAuth()
@@ -33,6 +32,10 @@ export default function Home() {
               router.reload(window.location.pathname)
             })
           } else {
+            setUser({
+              email: doc.data().email,
+              has_paid: doc.data().has_paid
+            })
             setLoading(false)
           }
         })
@@ -66,18 +69,20 @@ export default function Home() {
       <div className='Header'>
         <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT</span>
         <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3 engine</span>
-        <button onClick={(e) => {
+        <button className='btn logout' onClick={(e) => {
           e.preventDefault();
           logout()
         }}>Log Out</button>
       </div>
       <div id='content'>
         <div style={{width: '100%'}}>
+          {(user.has_paid) ? 
           <input type='text' autoComplete='off' placeholder='Ask me anything ...' id='chat-box' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
             if (e.key === 'Enter' && text !== '') {
               handleSubmit(text)
             }
-          }} />
+          }} /> : 
+          <input type='text' disabled='disabled' autoComplete='off' placeholder='Please make payment to chat' id='chat-box' style={{cursor: 'not-allowed'}} />}
         </div>
         <div id='message-container'>{session.map((convo) => 
           <div className='message-group' key={session.indexOf(convo)}>
