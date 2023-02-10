@@ -26,7 +26,7 @@ td {
   }
   body {
     color: white;
-    background: black;
+    background-color: black;
   }
 }
 
@@ -69,7 +69,8 @@ td {
 .message {
   width: 100%;
   border-top: 1px rgba(145, 176, 255, 0.15) solid;
-  padding: 15px 0 15px 0;
+  padding: 25px 0 25px 0;
+  position: relative;
 }
 
 .message > span {
@@ -77,6 +78,7 @@ td {
   display: block;
   text-align: left;
   margin: auto;
+  position: relative;
 }
 
 #message-container {
@@ -84,7 +86,7 @@ td {
 }
 
 .btn {
-  background-color: rgba(145, 176, 255, 0.15);
+  background-color: rgba(145, 176, 255, 0.18);
   border: 0;
   font-size: 16px;
   padding: 10px;
@@ -95,7 +97,7 @@ td {
 
 .btn:hover {
   cursor: pointer;
-  background-color: rgba(145, 176, 255, 0.1);
+  background-color: rgba(145, 176, 255, 0.15);
   transition: ease 0.4s;
 }
 
@@ -119,4 +121,12 @@ td {
   position: absolute;
   right: 30px;
   top: 30px;
+}
+
+.pic {
+  position: absolute;
+  width: 40px;
+  left: -60px;
+  top: -9px;
+  border-radius: 3px;
 }

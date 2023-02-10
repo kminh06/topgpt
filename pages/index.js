@@ -5,6 +5,8 @@ import { useAuth } from "@/AuthContext"
 import { useRouter } from "next/router"
 import { getDoc, doc, setDoc } from "firebase/firestore"
 import { db } from "@/config/firebase"
+import Image from "next/image"
+import chatgpt from '../chatgpt.png'
 
 export default function Home() {
   const [text, setText] = useState('')
@@ -34,7 +36,8 @@ export default function Home() {
           } else {
             setUser({
               email: doc.data().email,
-              has_paid: doc.data().has_paid
+              has_paid: doc.data().has_paid,
+              photoURL: doc.data().photoURL
             })
             setLoading(false)
           }
@@ -42,13 +45,20 @@ export default function Home() {
     }
   }, [])
 
+  useEffect(() => {
+    openai.listEngines().then((res) => {
+      console.log(res)
+    })
+    console.log('list')
+  }, [])
+
   function handleSubmit(text) {
     setText('')
-    setSession([...session, { prompt: text, result: '' }])
+    setSession([...session, { prompt: text, result: 'Thinking ...' }])
     openai.createCompletion({
       model: "text-davinci-003",
       prompt: text,
-      max_tokens: 100,
+      max_tokens: 500,
       temperature: 0,
     }).then((response) => {
       const answer = response.data.choices[0].text.slice(2)
@@ -86,8 +96,12 @@ export default function Home() {
         </div>
         <div id='message-container'>{session.map((convo) => 
           <div className='message-group' key={session.indexOf(convo)}>
-            <div className='message'><span style={{fontStyle: 'italic'}}>{convo.prompt}</span></div>
-            <div className='message' style={{whiteSpace: 'pre-line'}}><span>{convo.result}</span></div>
+            <div className='message'>
+              <span style={{fontStyle: 'italic'}}><img className='pic' src={user.photoURL} />{convo.prompt}</span>
+            </div>
+            <div className='message' style={{whiteSpace: 'pre-line'}}>
+              <span><Image className='pic' src={chatgpt} width={40} />{convo.result}</span>
+            </div>
           </div>
         )}</div>
       </div>
