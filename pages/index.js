@@ -97,7 +97,7 @@ export default function Home() {
         <div id='message-container'>{session.map((convo) => 
           <div className='message-group' key={session.indexOf(convo)}>
             <div className='message'>
-              <span style={{fontStyle: 'italic'}}><img className='pic' src={user.photoURL} />{convo.prompt}</span>
+              <span><img className='pic' src={user.photoURL} />{convo.prompt}</span>
             </div>
             <div className='message' style={{whiteSpace: 'pre-line'}}>
               <span><Image className='pic' src={chatgpt} width={40} />{convo.result}</span>
