@@ -3,7 +3,7 @@ import { openai } from "@/config/openai"
 import Head from "next/head"
 import { useAuth } from "@/AuthContext"
 import { useRouter } from "next/router"
-import { getDoc, doc, setDoc } from "firebase/firestore"
+import { getDoc, doc, setDoc, onSnapshot } from "firebase/firestore"
 import { db } from "@/config/firebase"
 import Image from "next/image"
 import chatgpt from '../chatgpt.png'
@@ -21,27 +21,27 @@ export default function Home() {
       router.push('/login')
     } else {
       const docRef = doc(db, 'users', currentUser.uid)
-      getDoc(docRef)
-        .then((doc) => {
-          if (doc.data() === undefined) {
-            setDoc(docRef, {
-              displayName: currentUser.displayName,
-              photoURL: currentUser.photoURL,
-              email: currentUser.email,
-              date_joined: new Intl.DateTimeFormat('en-US',{month:'short', day:'numeric', year:'numeric'}).format(new Date()),
-              has_paid: false
-            }).then(() => {
-              router.reload(window.location.pathname)
-            })
-          } else {
-            setUser({
-              email: doc.data().email,
-              has_paid: doc.data().has_paid,
-              photoURL: doc.data().photoURL
-            })
-            setLoading(false)
-          }
-        })
+      onSnapshot(docRef, (doc) => {
+        if (doc.data() === undefined) {
+          setDoc(docRef, {
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
+            email: currentUser.email,
+            date_joined: new Intl.DateTimeFormat('en-US',{month:'short', day:'numeric', year:'numeric'}).format(new Date()),
+            has_paid: false
+          }).then(() => {
+            router.reload(window.location.pathname)
+          })
+        } else {
+          setUser({
+            email: doc.data().email,
+            has_paid: doc.data().has_paid,
+            photoURL: doc.data().photoURL
+          })
+          setLoading(false)
+        }
+      })
+          
     }
   }, [])
 
@@ -58,7 +58,7 @@ export default function Home() {
     openai.createCompletion({
       model: "text-davinci-003",
       prompt: text,
-      max_tokens: 500,
+      max_tokens: 1000,
       temperature: 0,
     }).then((response) => {
       const answer = response.data.choices[0].text.slice(2)
