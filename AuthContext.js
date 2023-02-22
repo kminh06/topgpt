@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
   function authenticate(provider, method) {
     signInWithPopup(auth, provider)
       .then(() => {
-        router.push('/')
+        router.push('/chat')
       })
   }
 
