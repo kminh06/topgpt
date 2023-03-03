@@ -38,7 +38,7 @@ td {
   margin: auto;
   padding-bottom: 20px;
   overflow-y: auto;
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 255, 255, 0.1);
   height: calc(100vh - 100px);
 }
 
@@ -86,7 +86,7 @@ td {
 }
 
 .btn {
-  background-color: rgba(145, 176, 255, 0.18);
+  background-color: rgba(145, 176, 255, 0.22);
   border: 0;
   font-size: 16px;
   padding: 10px;
@@ -98,7 +98,7 @@ td {
 
 .btn:hover {
   cursor: pointer;
-  background-color: rgba(145, 176, 255, 0.15);
+  background-color: rgba(145, 176, 255, 0.18);
   transition: ease 0.4s;
 }
 

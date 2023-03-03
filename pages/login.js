@@ -31,7 +31,7 @@ export default function Login() {
         authenticate(googleProvider)
       }}>
         <div>
-          <Image width={25} src={google} />
+          <Image alt='Google' width={25} src={google} />
           <span>Continue with Google</span>
         </div></button>
     </div> : <div>Loading ...</div>
