@@ -10,7 +10,9 @@ import chatgpt from '../chatgpt.png'
 
 export default function Home() {
   const [text, setText] = useState('')
-  const [session, setSession] = useState([])
+  const [session, setSession] = useState([
+    { "role": "system", "content": "You are TopGPT, a helpful assistant powered by OpenAI and created by Khac Minh Dau." }
+  ])
   const { currentUser, logout } = useAuth()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
@@ -53,21 +55,34 @@ export default function Home() {
 
   function handleSubmit(text) {
     setText('')
-    setSession([...session, { prompt: text, result: 'Thinking ...' }])
-    openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: text,
+    setSession([...session, { "role": "user", "content": text }])
+    console.log(session.push({ "role": "user", "content": text }))
+    openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: session,
       max_tokens: 1000,
       temperature: 0,
     }).then((response) => {
-      const answer = response.data.choices[0].text.slice(2)
+      const answer = response.data.choices[0].message.content
       console.log(answer)
       console.log(response)
-      setSession([...session, { prompt: text, result: answer }])
+      setSession([...session, { "role": "assistant", "content": answer }])
     }).catch((error) => {
       console.log(error)
-      setSession([...session, { prompt: text, result: 'Could not answer, please try again' }])
+      setSession([...session, { prompt: text, "content": 'Could not answer, please try again' }])
     })
+  }
+
+  function generateMessage(message) {
+    if (message.role === 'user') {
+      return <div className='message'>
+        <span><img className='pic' src={user.photoURL} />{message.content}</span>
+      </div>
+    } else if (message.role === 'assistant') {
+      return <div className='message'>
+        <span><Image className='pic' src={chatgpt} width={40} />{message.content}</span>
+      </div>
+    } else {}
   }
 
   return (
@@ -76,8 +91,8 @@ export default function Home() {
         <title>Chat | TopGPT</title>
       </Head>
       <div className='Header'>
-        <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT</span>
-        <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3 engine</span>
+        <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT 2.0</span>
+        <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3.5-Turbo engine</span>
         <button className='btn logout' onClick={(e) => {
           e.preventDefault();
           logout()
@@ -93,15 +108,8 @@ export default function Home() {
           }} /> : 
           <input type='text' disabled='disabled' autoComplete='off' placeholder='Please make payment to chat' id='chat-box' style={{cursor: 'not-allowed'}} />}
         </div>
-        <div id='message-container'>{session.map((convo) => 
-          <div className='message-group' key={session.indexOf(convo)}>
-            <div className='message'>
-              <span><img className='pic' src={user.photoURL} />{convo.prompt}</span>
-            </div>
-            <div className='message' style={{whiteSpace: 'pre-line'}}>
-              <span><Image className='pic' src={chatgpt} width={40} />{convo.result}</span>
-            </div>
-          </div>
+        <div id='message-container'>{session.map((message) => 
+          generateMessage(message)
         )}</div>
       </div>
     </div> : <div>Loading ...</div>

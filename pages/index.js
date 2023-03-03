@@ -34,8 +34,8 @@ export default function Home() {
         <title>Chat | TopGPT</title>
       </Head>
       <div className='Header'>
-        <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT</span>
-        <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3 engine</span>
+        <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT 2.0</span>
+        <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3.5-Turbo engine</span>
         <button className='btn logout' onClick={(e) => {
           e.preventDefault();
           router.push('/login')
@@ -48,10 +48,10 @@ export default function Home() {
         <div id='message-container'>{session.map((convo) => 
           <div className='message-group' key={session.indexOf(convo)}>
             <div className='message'>
-              <span><Image className='pic' src={Anon} width={40} />{convo.prompt}</span>
+              <span><Image alt='Anonymous' className='pic' src={Anon} width={40} />{convo.prompt}</span>
             </div>
             <div className='message' style={{whiteSpace: 'pre-line'}}>
-              <span><Image className='pic' src={chatgpt} width={40} />{convo.result}</span>
+              <span><Image alt='TopGPT' className='pic' src={chatgpt} width={40} />{convo.result}</span>
             </div>
           </div>
         )}</div>
