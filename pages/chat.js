@@ -46,17 +46,9 @@ export default function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    openai.listEngines().then((res) => {
-      console.log(res)
-    })
-    console.log('list')
-  }, [])
-
   function handleSubmit(text) {
     setText('')
-    setSession([...session, { "role": "user", "content": text }])
-    console.log(session.push({ "role": "user", "content": text }))
+    session.push({ "role": "user", "content": text })
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: session,
@@ -64,8 +56,6 @@ export default function Home() {
       temperature: 0,
     }).then((response) => {
       const answer = response.data.choices[0].message.content
-      console.log(answer)
-      console.log(response)
       setSession([...session, { "role": "assistant", "content": answer }])
     }).catch((error) => {
       console.log(error)
@@ -76,11 +66,11 @@ export default function Home() {
   function generateMessage(message) {
     if (message.role === 'user') {
       return <div className='message'>
-        <span><img className='pic' src={user.photoURL} />{message.content}</span>
+        <span><img alt='user' className='pic' src={user.photoURL} />{message.content}</span>
       </div>
     } else if (message.role === 'assistant') {
       return <div className='message'>
-        <span><Image className='pic' src={chatgpt} width={40} />{message.content}</span>
+        <span><Image alt='topgpt' className='pic' src={chatgpt} width={40} />{message.content}</span>
       </div>
     } else {}
   }
