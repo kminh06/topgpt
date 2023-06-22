@@ -8,6 +8,8 @@ import { db } from "@/config/firebase"
 import Image from "next/image"
 import chatgpt from '../chatgpt.png'
 import Anon from '../download.png'
+import GPTLogo from "@/components/GPTLogo"
+import Header from "@/components/Header"
 
 export default function Home() {
   const [text, setText] = useState('')
@@ -33,14 +35,10 @@ export default function Home() {
       <Head>
         <title>Chat | TopGPT</title>
       </Head>
-      <div className='Header'>
-        <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT 2.0</span>
-        <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3.5-Turbo engine</span>
-        <button className='btn logout' onClick={(e) => {
+      <Header button={<button className='btn logout' onClick={(e) => {
           e.preventDefault();
           router.push('/login')
-        }}>Log In</button>
-      </div>
+        }}>Log In</button>} />
       <div id='content'>
         <div style={{width: '100%'}}>
           <input type='text' disabled='disabled' autoComplete='off' placeholder='This is a demo! Please log in.' id='chat-box' style={{cursor: 'not-allowed'}} />
@@ -51,7 +49,7 @@ export default function Home() {
               <span><Image alt='Anonymous' className='pic' src={Anon} width={40} />{convo.prompt}</span>
             </div>
             <div className='message' style={{whiteSpace: 'pre-line'}}>
-              <span><Image alt='TopGPT' className='pic' src={chatgpt} width={40} />{convo.result}</span>
+              <span><span className='pic'><GPTLogo /></span>{convo.result}</span>
             </div>
           </div>
         )}</div>
