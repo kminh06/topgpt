@@ -3,10 +3,11 @@ import { openai } from "@/config/openai"
 import Head from "next/head"
 import { useAuth } from "@/AuthContext"
 import { useRouter } from "next/router"
-import { getDoc, doc, setDoc, onSnapshot } from "firebase/firestore"
+import { doc, setDoc, onSnapshot } from "firebase/firestore"
 import { db } from "@/config/firebase"
 import Image from "next/image"
-import chatgpt from '../chatgpt.png'
+import GPTLogo from "@/components/GPTLogo"
+import Header from "@/components/Header"
 
 export default function Home() {
   const [text, setText] = useState('')
@@ -46,17 +47,9 @@ export default function Home() {
     }
   }, [])
 
-  useEffect(() => {
-    openai.listEngines().then((res) => {
-      console.log(res)
-    })
-    console.log('list')
-  }, [])
-
   function handleSubmit(text) {
     setText('')
-    setSession([...session, { "role": "user", "content": text }])
-    console.log(session.push({ "role": "user", "content": text }))
+    session.push({ "role": "user", "content": text })
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: session,
@@ -64,8 +57,6 @@ export default function Home() {
       temperature: 0,
     }).then((response) => {
       const answer = response.data.choices[0].message.content
-      console.log(answer)
-      console.log(response)
       setSession([...session, { "role": "assistant", "content": answer }])
     }).catch((error) => {
       console.log(error)
@@ -76,11 +67,11 @@ export default function Home() {
   function generateMessage(message) {
     if (message.role === 'user') {
       return <div className='message'>
-        <span><img className='pic' src={user.photoURL} />{message.content}</span>
+        <span><img alt='user' className='pic' src={user.photoURL} />{message.content}</span>
       </div>
     } else if (message.role === 'assistant') {
       return <div className='message'>
-        <span><Image className='pic' src={chatgpt} width={40} />{message.content}</span>
+        <span><span className='pic'><GPTLogo /></span>{message.content}</span>
       </div>
     } else {}
   }
@@ -90,18 +81,14 @@ export default function Home() {
       <Head>
         <title>Chat | TopGPT</title>
       </Head>
-      <div className='Header'>
-        <span style={{ fontSize: '40px', fontWeight: 'bolder' }}>TopGPT 2.0</span>
-        <span style={{ fontSize: '15px' }}>Using OpenAI's GPT-3.5-Turbo engine</span>
-        <button className='btn logout' onClick={(e) => {
+      <Header button={<button className='btn logout' onClick={(e) => {
           e.preventDefault();
           logout()
-        }}>Log Out</button>
-      </div>
+        }}>Log Out</button>} />
       <div id='content'>
-        <div style={{width: '100%'}}>
+        <div style={{width: '100%', position: 'relative'}}>
           {(user.has_paid) ? 
-          <input type='text' autoComplete='off' placeholder='Ask me anything ...' id='chat-box' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
+          <input id='chat-box' type='text' autoComplete='off' placeholder='Ask me something.' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
             if (e.key === 'Enter' && text !== '') {
               handleSubmit(text)
             }

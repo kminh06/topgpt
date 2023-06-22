@@ -5,12 +5,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBxXfF3tIZn4QS8uLD2CMX41i8WFfgrS-o",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "kminh06-topgpt.firebaseapp.com",
   projectId: "kminh06-topgpt",
   storageBucket: "kminh06-topgpt.appspot.com",
   messagingSenderId: "652644592601",
-  appId: "1:652644592601:web:e862ceb50f4fd4e74087c8"
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
