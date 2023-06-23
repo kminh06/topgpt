@@ -51,6 +51,15 @@ body {
   #title.permanent {
     display: block;
   }
+  ul#prompts-list {
+    padding-left: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Welcome > h1 {
+    font-size: 1.8em;
+  }
 }
 
 #content {
@@ -205,6 +214,10 @@ body {
   align-items: center;
 }
 
+.pic#user {
+  background-color: var(--background);
+}
+
 .Login {
   display: flex;
   flex-direction: column;
@@ -248,12 +261,10 @@ body {
   margin: 0 15px;
 }
 
-.prompts:hover {
+.prompt:hover {
   text-decoration: underline;
   cursor: pointer;
 } 
-
-
 
 .login {
   width: 100%;
