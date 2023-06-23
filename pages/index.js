@@ -40,8 +40,8 @@ export default function Home() {
           router.push('/login')
         }}>Log In</button>} />
       <div id='content'>
-        <div style={{width: '100%'}}>
-          <input type='text' disabled='disabled' autoComplete='off' placeholder='This is a demo! Please log in.' id='chat-box' style={{cursor: 'not-allowed'}} />
+        <div id='chat-box'>
+          <input type='text' disabled='disabled' autoComplete='off' placeholder='This is a demo! Please log in.' id='chat-input' style={{cursor: 'not-allowed'}} />
         </div>
         <div id='message-container'>{session.map((convo) => 
           <div className='message-group' key={session.indexOf(convo)}>
