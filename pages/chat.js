@@ -21,6 +21,20 @@ export default function Home() {
   const [user, setUser] = useState()
   const bottom = useRef(null)
   const [x, setX] = useState(true)
+  const list = [
+    {
+      prompt: 'Explain technical concepts',
+      question: 'What is a "serverless function"?'
+    },
+    {
+      prompt: 'Summarize an article',
+      question: 'Summarize the following article for a 2nd grader:'
+    },
+    {
+      prompt: 'Draft an email',
+      question: 'Draft an email to my boss about the following:'
+    }
+  ]
 
   function scrollToBottom() {
     bottom.current?.scrollIntoView()
@@ -104,15 +118,34 @@ export default function Home() {
           {session.map((message) => generateMessage(message))}
           <div id='hider' ref={bottom}></div>
         </div>
-        {(session.length < 2) ? <Welcome /> : <></>}
-        <div>
-          {(user.has_paid) ? 
-          <input id='chat-box' type='text' autoComplete='off' placeholder='Ask me something.' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
-            if (e.key === 'Enter' && text !== '') {
-              handleSubmit(text)
-            }
-          }} /> : 
-          <input type='text' disabled='disabled' autoComplete='off' placeholder='Please make payment to chat' id='chat-box' style={{cursor: 'not-allowed'}} />}
+        {(session.length < 2) ? <Welcome list={
+          <ul>
+            {list.map((item) => <li className='prompts' key={item.prompt} onClick={(e) => {
+              e.preventDefault();
+              setText(item.question)
+            }}>
+              {item.prompt}
+            </li>)}
+          </ul>
+        } /> : <></>}
+        <div id='chat-box'>
+          {(user.has_paid) ? <>
+            <input id='chat-input' type='text' autoComplete='off' placeholder='Ask me something.' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
+              if (e.key === 'Enter' && text !== '') {
+                handleSubmit(text)
+              }
+            }} />
+            <img className={(text) ? '' : 'disabled'} onClick={(e) => {
+              e.preventDefault()
+              if (text) {
+                handleSubmit(text)
+              }
+            }} src='/send.svg' id='send' />
+          </> : <>
+            <input id='chat-input' type='text' disabled='disabled' autoComplete='off' placeholder='Please make payment to chat'  style={{cursor: 'not-allowed'}} />
+            <img className={'disabled'} src='/send.svg' id='send' />
+          </>
+          }
         </div>
       </div>
     </div> : <div>Loading ...</div>

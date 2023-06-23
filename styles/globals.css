@@ -46,8 +46,7 @@ body {
 
 @media screen and (max-width: 550px) {
   #title {
-    position: absolute;
-    left: 70px
+    display: none;
   }
 }
 
@@ -67,17 +66,33 @@ body {
   background-color: black;
   outline: none;
   resize: none;
-  font-size: large;
-  border-radius: 5px;
-  border: 1px solid var(--grey);
-  height: 60px;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  padding: 0 25px;
   position: fixed;
   bottom: 25px;
   right: calc((100% - 700px) / 2);
   z-index: 10;
+  display: flex;
+  border-radius: 5px;
+  border: 1px solid var(--grey);
+  align-items: center;
+  font-size: large;
+  height: 60px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+}
+
+#chat-input {
+  font-size: large;
+  height: 60px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
+  padding: 0 25px;
+}
+
+#chat-input:focus {
+  outline: none;
 }
 
 .Header {
@@ -187,17 +202,36 @@ body {
   align-items: center;
 }
 
-.Login, .Welcome {
-  background-color: black;
-  width: fit-content;
-  margin: auto;
+.Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   top: 20vh;
   height: 60vh;
   padding: 15px 60px;
+  width: fit-content;
+}
+
+#Form > h1 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 26px;
+  width: 250px;
+  position: absolute;
+}
+
+#Form, .Welcome {
+  background-color: black;
   border-radius: 10px;
-  min-width: 350px;
   border: 1px solid var(--grey);
+  margin: 0 15px;
 }
 
 .Welcome {
@@ -211,15 +245,16 @@ body {
   margin: 0 15px;
 }
 
-.Login > h1 {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 26px;
-}
+.prompts:hover {
+  text-decoration: underline;
+  cursor: pointer;
+} 
+
+
 
 .login {
   width: 100%;
-  max-width: 250px;
+  min-width: 250px;
   height: 40px;
   display: flex;
   justify-content: center;
@@ -235,4 +270,25 @@ body {
   background-color: var(--background);
   position: relative;
   bottom: 1px;
+}
+
+#send {
+  width: 30px;
+  background-color: white;
+  padding: 4px;
+  border-radius: 5px;
+  position: absolute;
+  right: 15px;
+}
+
+#send.disabled {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+#send.disabled:hover {
+  cursor: auto;
+}
+
+#send:hover {
+  cursor: pointer;
 }
