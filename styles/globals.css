@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Inter');
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono');
 
-html,
-body {
+html, body {
   padding: 0;
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: var(--font-sans);
   text-align: center;
 }
 
 :root {
   --background: #19181b;
   --white: #d1d1d1;
+  --grey: rgb(47, 47, 47);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', Courier, monospace;
 }
 
 a {
@@ -29,18 +31,23 @@ td {
   text-align: right;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: var(--white);
-    background-color: black;
-  }
+html {
+  color-scheme: dark;
+}
+
+body {
+  color: white;
+  background-color: var(--background);
 }
 
 #title {
-  font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;
+  font-family: var(--font-mono)
+}
+
+@media screen and (max-width: 550px) {
+  #title {
+    display: none;
+  }
 }
 
 #content {
@@ -49,10 +56,8 @@ td {
   align-items: center;
   width: 100%;
   margin: auto;
-  padding-bottom: 20px;
   overflow-y: auto;
   background-color: #19181b;
-  height: calc(100vh - 65px);
 }
 
 #chat-box {
@@ -61,17 +66,33 @@ td {
   background-color: black;
   outline: none;
   resize: none;
-  font-size: large;
-  border-radius: 5px;
-  border: 1px solid rgb(47, 47, 47);
-  height: 60px;
-  font-family: 'Inter';
-  font-size: 15px;
-  padding: 0 25px;
   position: fixed;
   bottom: 25px;
   right: calc((100% - 700px) / 2);
   z-index: 10;
+  display: flex;
+  border-radius: 5px;
+  border: 1px solid var(--grey);
+  align-items: center;
+  font-size: large;
+  height: 60px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+}
+
+#chat-input {
+  font-size: large;
+  height: 60px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
+  padding: 0 25px;
+}
+
+#chat-input:focus {
+  outline: none;
 }
 
 .Header {
@@ -83,12 +104,15 @@ td {
   flex-direction: column;
   align-items: center;
   padding-top: 15px;
-  border-bottom: 1px solid rgb(47, 47, 47);
+  border-bottom: 1px solid var(--grey);
+  position: fixed;
+  top: 0;
 }
 
 .message {
   width: 100%;
   position: relative;
+  color: var(--white);
 }
 
 .message > span {
@@ -98,21 +122,21 @@ td {
   margin: auto;
   position: relative;
   padding: 35px 0;
-  border-bottom: 1px solid rgb(47, 47, 47);
+  border-bottom: 1px solid var(--grey);
 }
 
 #message-container {
   width: 100%;
-  margin-bottom: 60px;
   max-width: 700px;
   position: absolute;
-  top: 65px
+  top: 65px;
+  padding-bottom: 85px;
 }
 
 @media screen and (max-width: 830px) {
   #message-container {
     max-width: none;
-    padding: 0 45px 0 60px;
+    padding: 0 45px 99px 60px;
   }
   #chat-box {
     max-width: none;
@@ -121,7 +145,7 @@ td {
     height: 100px;
     border-radius: 0;
     border: 0;
-    border-top: 1px solid rgb(47, 47, 47);
+    border-top: 1px solid var(--grey);
   }
   .pic {
     left: -45px !important;
@@ -131,18 +155,18 @@ td {
 .btn {
   background-color: white;
   border: 0;
-  font-size: 16px;
+  font-size: 17px;
   padding: 10px;
   border-radius: 5px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: var(--font-sans);
   transition: ease 0.4s;
   color: black;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .btn:hover {
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.8);
   transition: ease 0.4s;
 }
 
@@ -154,21 +178,9 @@ td {
   gap: 5px
 }
 
-.login {
-  width: 100%;
-  max-width: 250px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  font-family: 'IBM Plex Mono';
-  font-size: 15px;
-}
-
-.logout {
+.small {
   width: 100px;
-  padding: 8px 0 10px 0;
+  padding: 8px 0;
   position: absolute;
   right: 16px;
   top: 16px;
@@ -182,11 +194,101 @@ td {
   width: 30px;
   height: 30px;
   left: -50px;
-  top: 30px;
+  top: 32px;
   border-radius: 5px;
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgb(47, 47, 47);
+}
+
+.Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: 20vh;
+  height: 60vh;
+  padding: 15px 60px;
+  width: fit-content;
+}
+
+#Form > h1 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 26px;
+  width: 250px;
+  position: absolute;
+}
+
+#Form, .Welcome {
+  background-color: black;
+  border-radius: 10px;
+  border: 1px solid var(--grey);
+  margin: 0 15px;
+}
+
+.Welcome {
+  position: absolute;
+  top: 95px;
+  height: fit-content;
+  text-align: left;
+  font-family: var(--font-mono);
+  padding: 5px 40px;
+  width: auto;
+  margin: 0 15px;
+}
+
+.prompts:hover {
+  text-decoration: underline;
+  cursor: pointer;
+} 
+
+
+
+.login {
+  width: 100%;
+  min-width: 250px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#hider {
+  height: 1px;
+  background-color: var(--background);
+  position: relative;
+  bottom: 1px;
+}
+
+#send {
+  width: 30px;
+  background-color: white;
+  padding: 4px;
+  border-radius: 5px;
+  position: absolute;
+  right: 15px;
+}
+
+#send.disabled {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+#send.disabled:hover {
+  cursor: auto;
+}
+
+#send:hover {
+  cursor: pointer;
 }
