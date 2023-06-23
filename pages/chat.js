@@ -95,7 +95,7 @@ export default function Home() {
   function generateMessage(message) {
     if (message.role === 'user') {
       return <div className='message'>
-        <span><img alt='user' className='pic' src={user.photoURL} />{message.content}</span>
+        <span><img alt='user' id='user' className='pic' src={user.photoURL} />{message.content}</span>
       </div>
     } else if (message.role === 'assistant') {
       return <div className='message'>
@@ -119,8 +119,8 @@ export default function Home() {
           <div id='hider' ref={bottom}></div>
         </div>
         {(session.length < 2) ? <Welcome list={
-          <ul>
-            {list.map((item) => <li className='prompts' key={item.prompt} onClick={(e) => {
+          <ul id='prompts-list'>
+            {list.map((item) => <li className='prompt' key={item.prompt} onClick={(e) => {
               e.preventDefault();
               setText(item.question)
             }}>
