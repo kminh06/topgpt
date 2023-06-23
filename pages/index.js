@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from "react"
-import { openai } from "@/config/openai"
+import React, { useState, useEffect, useRef } from "react"
 import Head from "next/head"
 import { useAuth } from "@/AuthContext"
 import { useRouter } from "next/router"
-import { getDoc, doc, setDoc, onSnapshot } from "firebase/firestore"
-import { db } from "@/config/firebase"
 import Image from "next/image"
-import chatgpt from '../chatgpt.png'
 import Anon from '../download.png'
 import GPTLogo from "@/components/GPTLogo"
 import Header from "@/components/Header"
 
 export default function Home() {
-  const [text, setText] = useState('')
   const [session, setSession] = useState([{
     prompt: 'Explain quantum computing in simple terms',
     result: 'Quantum computing is a type of computing that uses quantum-mechanical phenomena, such as superposition and entanglement, to perform operations on data. It is different from traditional computing, which uses binary bits (ones and zeros) to represent and process information. In quantum computing, information is represented by qubits (quantum bits) which can exist in multiple states simultaneously. This allows quantum computers to process and store much more information than traditional computers, and to solve certain problems much faster.'
@@ -20,7 +15,7 @@ export default function Home() {
   const { currentUser, logout } = useAuth()
   const router = useRouter()
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState()
+  const bottom = useRef(null)
   
   useEffect(() => {
     if (currentUser) {
@@ -43,16 +38,19 @@ export default function Home() {
         <div id='chat-box'>
           <input type='text' disabled='disabled' autoComplete='off' placeholder='This is a demo! Please log in.' id='chat-input' style={{cursor: 'not-allowed'}} />
         </div>
-        <div id='message-container'>{session.map((convo) => 
-          <div className='message-group' key={session.indexOf(convo)}>
-            <div className='message'>
-              <span><Image alt='Anonymous' className='pic' src={Anon} width={40} />{convo.prompt}</span>
+        <div id='message-container'>
+          {session.map((convo) => 
+            <div className='message-group' key={session.indexOf(convo)}>
+              <div className='message'>
+                <span><Image alt='Anonymous' className='pic' src={Anon} width={40} />{convo.prompt}</span>
+              </div>
+              <div className='message' style={{whiteSpace: 'pre-line'}}>
+                <span><span className='pic'><GPTLogo /></span>{convo.result}</span>
+              </div>
             </div>
-            <div className='message' style={{whiteSpace: 'pre-line'}}>
-              <span><span className='pic'><GPTLogo /></span>{convo.result}</span>
-            </div>
-          </div>
-        )}</div>
+          )}
+          <div id='hider' ref={bottom}></div>
+        </div>
       </div>
     </div> : <div>Loading ...</div>
   )
