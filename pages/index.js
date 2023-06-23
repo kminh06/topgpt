@@ -35,7 +35,7 @@ export default function Home() {
       <Head>
         <title>Chat | TopGPT</title>
       </Head>
-      <Header button={<button className='btn logout' onClick={(e) => {
+      <Header button={<button className='btn small' onClick={(e) => {
           e.preventDefault();
           router.push('/login')
         }}>Log In</button>} />

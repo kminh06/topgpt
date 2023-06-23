@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { openai } from "@/config/openai"
 import Head from "next/head"
 import { useAuth } from "@/AuthContext"
@@ -8,6 +8,7 @@ import { db } from "@/config/firebase"
 import Image from "next/image"
 import GPTLogo from "@/components/GPTLogo"
 import Header from "@/components/Header"
+import Welcome from "@/components/Welcome"
 
 export default function Home() {
   const [text, setText] = useState('')
@@ -18,6 +19,16 @@ export default function Home() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState()
+  const bottom = useRef(null)
+  const [x, setX] = useState(true)
+
+  function scrollToBottom() {
+    bottom.current?.scrollIntoView()
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [session, x])
   
   useEffect(() => {
     if (!currentUser) {
@@ -47,9 +58,12 @@ export default function Home() {
     }
   }, [])
 
+  console.log(session)
+
   function handleSubmit(text) {
     setText('')
     session.push({ "role": "user", "content": text })
+    setX(!x)
     openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: session,
@@ -81,12 +95,17 @@ export default function Home() {
       <Head>
         <title>Chat | TopGPT</title>
       </Head>
-      <Header button={<button className='btn logout' onClick={(e) => {
+      <Header button={<button className='btn small' onClick={(e) => {
           e.preventDefault();
           logout()
         }}>Log Out</button>} />
       <div id='content'>
-        <div style={{width: '100%', position: 'relative'}}>
+        <div id='message-container'>
+          {session.map((message) => generateMessage(message))}
+          <div id='hider' ref={bottom}></div>
+        </div>
+        {(session.length < 2) ? <Welcome /> : <></>}
+        <div>
           {(user.has_paid) ? 
           <input id='chat-box' type='text' autoComplete='off' placeholder='Ask me something.' value={text} onChange={(e) => {setText(e.target.value)}} onKeyDown={(e) => {
             if (e.key === 'Enter' && text !== '') {
@@ -95,9 +114,6 @@ export default function Home() {
           }} /> : 
           <input type='text' disabled='disabled' autoComplete='off' placeholder='Please make payment to chat' id='chat-box' style={{cursor: 'not-allowed'}} />}
         </div>
-        <div id='message-container'>{session.map((message) => 
-          generateMessage(message)
-        )}</div>
       </div>
     </div> : <div>Loading ...</div>
   )
