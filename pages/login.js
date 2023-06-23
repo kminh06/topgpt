@@ -24,7 +24,7 @@ export default function Login() {
       <Head>
         <title>Login | TopGPT</title>
       </Head>
-      <Header />
+      <Header state={'permanent'} />
       <div id='Form'>
         <h1>Log into your account</h1>
         <button className='btn login' onClick={(e) => {

@@ -48,6 +48,9 @@ body {
   #title {
     display: none;
   }
+  #title.permanent {
+    display: block;
+  }
 }
 
 #content {
@@ -215,7 +218,7 @@ body {
   position: relative;
   top: 20vh;
   height: 60vh;
-  padding: 15px 60px;
+  padding: 15px 40px;
   width: fit-content;
 }
 
