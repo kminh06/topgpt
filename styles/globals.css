@@ -48,6 +48,9 @@ body {
   #title {
     display: none;
   }
+  #title.permanent {
+    display: block;
+  }
 }
 
 #content {
@@ -88,7 +91,7 @@ body {
   width: 100%;
   background-color: rgba(0, 0, 0, 0);
   border: 0;
-  padding: 0 25px;
+  padding: 0 60px 0 25px;
 }
 
 #chat-input:focus {
@@ -215,7 +218,7 @@ body {
   position: relative;
   top: 20vh;
   height: 60vh;
-  padding: 15px 60px;
+  padding: 15px 40px;
   width: fit-content;
 }
 
@@ -240,7 +243,7 @@ body {
   height: fit-content;
   text-align: left;
   font-family: var(--font-mono);
-  padding: 5px 40px;
+  padding: 5px 40px 15px 40px;
   width: auto;
   margin: 0 15px;
 }
