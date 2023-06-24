@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css?family=Inter');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono');
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-sans);
+  text-align: center;
+}
+
+:root {
+  --background: #19181b;
+  --white: #d1d1d1;
+  --grey: rgb(47, 47, 47);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', Courier, monospace;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  line-height: 1.6;
+}
+
+td {
+  padding: 0 0.5em;
+  text-align: right;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  color: white;
+  background-color: var(--background);
+}
+
+#title {
+  font-family: var(--font-mono)
+}
+
+@media screen and (max-width: 550px) {
+  #title {
+    display: none;
+  }
+  #title.permanent {
+    display: block;
+  }
+  ul#prompts-list {
+    padding-left: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Welcome > h1 {
+    font-size: 1.8em;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #Form > h1 {
+    font-size: 28px !important;
+  }
+
+  #Form {
+    min-width: fit-content;
+    width: 25% !important;
+    max-width: 400px;
+  }
+}
+
+#content {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  overflow-y: auto;
+  background-color: #19181b;
+}
+
+#chat-box {
+  width: 100%;
+  max-width: 700px;
+  background-color: black;
+  outline: none;
+  resize: none;
+  position: fixed;
+  bottom: 25px;
+  right: calc((100% - 700px) / 2);
+  z-index: 10;
+  display: flex;
+  border-radius: 5px;
+  border: 1px solid var(--grey);
+  align-items: center;
+  font-size: large;
+  height: 60px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+}
+
+#chat-input {
+  font-size: large;
+  height: 60px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
+  padding: 0 60px 0 25px;
+}
+
+#chat-input:focus {
+  outline: none;
+}
+
+.Header {
+  height: 65px;
+  width: 100%;
+  background-color: black;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15px;
+  border-bottom: 1px solid var(--grey);
+  position: fixed;
+  top: 0;
+}
+
+.message {
+  width: 100%;
+  position: relative;
+  color: var(--white);
+}
+
+.message > span {
+  width: 100%;
+  display: block;
+  text-align: left;
+  margin: auto;
+  position: relative;
+  padding: 35px 0;
+  border-bottom: 1px solid var(--grey);
+}
+
+#message-container {
+  width: 100%;
+  max-width: 700px;
+  position: absolute;
+  top: 65px;
+  padding-bottom: 85px;
+}
+
+@media screen and (max-width: 830px) {
+  #message-container {
+    max-width: none;
+    padding: 0 45px 99px 60px;
+  }
+  #chat-box {
+    max-width: none;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+    border-radius: 0;
+    border: 0;
+    border-top: 1px solid var(--grey);
+  }
+  .pic {
+    left: -45px !important;
+  }
+}
+
+.btn {
+  background-color: white;
+  border: 0;
+  font-size: 17px;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: var(--font-sans);
+  transition: ease 0.4s;
+  color: black;
+  font-weight: 500;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: ease 0.4s;
+}
+
+.btn > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px
+}
+
+.small {
+  width: 100px;
+  padding: 8px 0;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  height: 31px;
+  line-height: 1;
+  font-size: 15px;
+}
+
+.pic {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: -50px;
+  top: 32px;
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pic#user {
+  background-color: var(--background);
+}
+
+.Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: 20vh;
+  height: 60vh;
+  padding: 15px 40px;
+  width: fit-content;
+}
+
+#Form > h1 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 26px;
+  width: 250px;
+  position: absolute;
+}
+
+#Form, .Welcome {
+  background-color: black;
+  border-radius: 10px;
+  border: 1px solid var(--grey);
+  margin: 0 15px;
+}
+
+.Welcome {
+  position: absolute;
+  top: 95px;
+  height: fit-content;
+  text-align: left;
+  font-family: var(--font-mono);
+  padding: 5px 40px 15px 40px;
+  width: auto;
+  margin: 0 15px;
+}
+
+.prompt {
+  width: fit-content;
+}
+
+.prompt:hover {
+  text-decoration: underline;
+  cursor: pointer;
+} 
+
+.login {
+  width: 100%;
+  min-width: 250px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  font-family: var(--font-mono);
+  font-size: 16px;
+}
+
+#hider {
+  height: 1px;
+  background-color: var(--background);
+  position: relative;
+  bottom: 1px;
+}
+
+#send {
+  width: 30px;
+  background-color: white;
+  padding: 4px;
+  border-radius: 5px;
+  position: absolute;
+  right: 15px;
+}
+
+#send.disabled {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+#send.disabled:hover {
+  cursor: auto;
+}
+
+#send:hover {
+  cursor: pointer;
+}
