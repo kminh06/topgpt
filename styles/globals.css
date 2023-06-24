@@ -62,6 +62,18 @@ body {
   }
 }
 
+@media screen and (min-width: 768px) {
+  #Form > h1 {
+    font-size: 28px !important;
+  }
+
+  #Form {
+    min-width: fit-content;
+    width: 25% !important;
+    max-width: 400px;
+  }
+}
+
 #content {
   display: flex;
   flex-direction: column-reverse;
@@ -261,6 +273,10 @@ body {
   margin: 0 15px;
 }
 
+.prompt {
+  width: fit-content;
+}
+
 .prompt:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -275,8 +291,7 @@ body {
   align-items: center;
   margin: auto;
   font-family: var(--font-mono);
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 16px;
 }
 
 #hider {
