@@ -1,10 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from "react"
-import { auth, db } from "@/config/firebase"
-import { signInWithPopup, signOut } from "firebase/auth"
-import { useRouter } from "next/router";
-import { doc, setDoc } from "firebase/firestore";
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import { auth } from '@/config/firebase'
+import { signInWithPopup, signOut } from 'firebase/auth'
+import { useRouter } from 'next/router'
 
-const AuthContext = createContext();
+const AuthContext = createContext()
 
 export function useAuth() {
   return useContext(AuthContext)
@@ -16,10 +15,9 @@ export function AuthProvider({ children }) {
   const router = useRouter()
 
   function authenticate(provider, method) {
-    signInWithPopup(auth, provider)
-      .then(() => {
-        router.push('/chat')
-      })
+    signInWithPopup(auth, provider).then(() => {
+      router.push('/chat')
+    })
   }
 
   function logout() {
@@ -33,7 +31,7 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user)
       setLoading(false)
     })
@@ -44,7 +42,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     authenticate,
-    logout
+    logout,
   }
 
   return (
